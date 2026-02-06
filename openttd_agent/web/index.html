@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OpenTTD Agent Control</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>OpenTTD Agent Control Panel</h1>
+      <p>Детальное управление агентом и поток его внутренних мыслей.</p>
+    </header>
+
+    <main class="grid">
+      <section class="panel">
+        <h2>Ручное управление</h2>
+        <label for="command">Команда</label>
+        <textarea id="command" rows="4" placeholder="Например: сосредоточься на грузовых маршрутах"></textarea>
+        <button id="sendCommand">Отправить</button>
+        <button id="runCycle">Запустить цикл агента</button>
+      </section>
+
+      <section class="panel">
+        <h2>Статус агента</h2>
+        <div id="status">Ожидание данных...</div>
+      </section>
+
+      <section class="panel">
+        <h2>Внутренние мысли</h2>
+        <ul id="thoughts"></ul>
+      </section>
+
+      <section class="panel">
+        <h2>События</h2>
+        <ul id="events"></ul>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
