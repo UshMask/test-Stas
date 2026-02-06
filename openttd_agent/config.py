@@ -6,7 +6,7 @@ import os
 
 @dataclass
 class AppConfig:
-    gemini_api_key: str
+    gemini_api_key: str | None = None
     openttd_host: str = "127.0.0.1"
     openttd_port: int = 3979
     ui_port: int = 8123
@@ -19,7 +19,8 @@ class AppConfig:
 
         config = AppConfig(
             gemini_api_key=overrides.get("gemini_api_key")
-            or _env("GEMINI_API_KEY", ""),
+            or _env("GEMINI_API_KEY", "")
+            or None,
             openttd_host=str(
                 overrides.get("openttd_host")
                 or _env("OPENTTD_HOST", "127.0.0.1")

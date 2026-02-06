@@ -36,10 +36,23 @@ class AgentResponse:
 
 
 class AgentCore:
-    def __init__(self, gemini: GeminiClient, game: GameAdapter, memory: MemoryLog) -> None:
+    def __init__(
+        self,
+        gemini: GeminiClient | None,
+        game: GameAdapter,
+        memory: MemoryLog,
+        model: str = "gemini-1.5-flash",
+    ) -> None:
         self.gemini = gemini
         self.game = game
         self.memory = memory
+        self.model = model
+
+    def set_gemini_credentials(self, api_key: str | None, model: str | None = None) -> None:
+        if model:
+            self.model = model
+        if api_key:
+            self.gemini = GeminiClient(api_key=api_key, model=self.model)
 
     def _build_system_prompt(self, role: str) -> str:
         role_prompt = ROLE_PROMPTS.get(role, "")
@@ -53,8 +66,15 @@ class AgentCore:
         return "\n".join(part.get("text", "") for part in parts)
 
     def run_cycle(self) -> AgentResponse:
+        if not self.gemini:
+            message = "Gemini API key не задан. Добавьте ключ в настройках."
+            self.memory.add_event({"type": "error", "message": message})
+            return AgentResponse(thoughts=[message], actions=[], plan=message)
+
         state = self.game.capture_state()
         self.memory.add_event({"type": "state", "summary": state.summary})
+        screenshot = self.game.capture_screenshot()
+        self.memory.add_event({"type": "screenshot", "payload": screenshot})
 
         observer_prompt = (
             f"Состояние игры: {state.summary}\n"
@@ -97,6 +117,19 @@ class AgentCore:
             executed_actions.append(result)
 
         return AgentResponse(thoughts=[observation, plan, actions_text], actions=executed_actions, plan=plan)
+
+    def check_api(self) -> Dict[str, Any]:
+        if not self.gemini:
+            return {"ok": False, "message": "API key не задан."}
+        try:
+            response = self.gemini.generate(
+                "Ты проверяешь соединение с API.",
+                "Ответь одним словом: ok",
+            )
+            text = self._extract_text(response)
+            return {"ok": "ok" in text.lower(), "message": text.strip() or "ok"}
+        except Exception as exc:
+            return {"ok": False, "message": f"API error: {exc}"}
 
     def _parse_actions(self, actions_text: str) -> List[Dict[str, Any]]:
         try:

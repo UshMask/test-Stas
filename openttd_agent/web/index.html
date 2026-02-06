@@ -9,30 +9,69 @@
   <body>
     <header class="hero">
       <div>
-        <p class="eyebrow">OpenTTD · Gemini Agent</p>
-        <h1>Панель управления автономным агентом</h1>
-        <p class="subtitle">Детальное управление, прозрачные мысли агента и контроль циклов.</p>
+        <p class="eyebrow">Phantom Rail · OpenTTD Agent</p>
+        <h1>Командный чат агента</h1>
+        <p class="subtitle">Persona 5 вдохновение: быстрый контроль, визуальный темп, живой чат событий.</p>
       </div>
       <div class="hero-actions">
         <button id="runCycle" class="primary">Запустить цикл</button>
-        <button id="refreshState" class="ghost">Обновить статус</button>
+        <button id="takeShot" class="ghost">Скриншот</button>
       </div>
     </header>
 
     <main class="layout">
-      <section class="panel control">
-        <h2>Ручное управление</h2>
-        <p class="muted">Отправьте команду для корректировки стратегии агента.</p>
-        <label for="command">Команда</label>
-        <textarea id="command" rows="5" placeholder="Например: сосредоточься на пассажирских маршрутах"></textarea>
-        <div class="button-row">
-          <button id="sendCommand" class="primary">Отправить команду</button>
-          <button id="clearCommand" class="ghost">Очистить</button>
+      <section class="panel chat">
+        <div class="panel-header">
+          <h2>Основной цикл</h2>
+          <span class="chip">Live feed</span>
         </div>
+        <ul id="feed" class="chat-feed"></ul>
       </section>
 
-      <section class="panel status">
-        <h2>Статус агента</h2>
+      <aside class="panel sidebar">
+        <div class="panel-header">
+          <h2>Настройки</h2>
+          <span class="chip">API & Game</span>
+        </div>
+        <div class="form">
+          <label for="apiKey">Gemini API Key</label>
+          <input id="apiKey" type="password" placeholder="Введите ключ" />
+          <small id="apiStatus" class="muted">Ключ не задан</small>
+
+          <label for="model">Модель</label>
+          <input id="model" type="text" placeholder="gemini-1.5-flash" />
+
+          <label for="host">OpenTTD host</label>
+          <input id="host" type="text" placeholder="127.0.0.1" />
+
+          <label for="port">OpenTTD port</label>
+          <input id="port" type="number" placeholder="3979" />
+
+          <div class="button-row">
+            <button id="saveConfig" class="primary">Сохранить</button>
+            <button id="checkApi" class="ghost">Проверить API</button>
+          </div>
+          <div class="button-row">
+            <button id="checkGame" class="ghost">Проверить игру</button>
+            <button id="refreshState" class="ghost">Обновить</button>
+          </div>
+        </div>
+
+        <div class="panel-header">
+          <h2>Ручное управление</h2>
+          <span class="chip">Command</span>
+        </div>
+        <label for="command">Команда</label>
+        <textarea id="command" rows="4" placeholder="Например: сосредоточься на пассажирских маршрутах"></textarea>
+        <div class="button-row">
+          <button id="sendCommand" class="primary">Отправить</button>
+          <button id="clearCommand" class="ghost">Очистить</button>
+        </div>
+
+        <div class="panel-header">
+          <h2>Статистика</h2>
+          <span class="chip">Realtime</span>
+        </div>
         <div class="status-grid">
           <div class="status-card">
             <span class="label">Мысли</span>
@@ -43,28 +82,16 @@
             <strong id="eventCount">0</strong>
           </div>
           <div class="status-card">
+            <span class="label">Скриншоты</span>
+            <strong id="shotCount">0</strong>
+          </div>
+          <div class="status-card">
             <span class="label">Последнее обновление</span>
             <strong id="lastUpdated">—</strong>
           </div>
         </div>
         <div class="status-summary" id="status">Ожидание данных...</div>
-      </section>
-
-      <section class="panel scroll">
-        <div class="panel-header">
-          <h2>Внутренние мысли</h2>
-          <span class="chip">Observer · Planner · Actor</span>
-        </div>
-        <ul id="thoughts" class="feed"></ul>
-      </section>
-
-      <section class="panel scroll">
-        <div class="panel-header">
-          <h2>События</h2>
-          <span class="chip">Логи управления</span>
-        </div>
-        <ul id="events" class="feed"></ul>
-      </section>
+      </aside>
     </main>
 
     <script src="/app.js"></script>

@@ -25,10 +25,10 @@ This project is a **standard-library-only** Python application that runs an auto
 Start the agent server (default port: 8123):
 
 ```bash
-./bin/openttd-agent --gemini-api-key "YOUR_KEY"
+./bin/openttd-agent
 ```
 
-Open the UI in your browser:
+Open the UI in your browser and set the Gemini API key in the settings panel:
 
 ```
 http://localhost:8123
@@ -89,4 +89,3 @@ openttd_agent/
 
 - This repo contains *architecture-first* scaffolding so you can plug in the real game integration layer as needed.
 - When ready, replace `GameAdapter.capture_state()` and `GameAdapter.execute_action()` with your OpenTTD automation of choice.
-

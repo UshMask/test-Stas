@@ -31,12 +31,22 @@ def main() -> None:
         model=args.model,
     )
 
-    gemini = GeminiClient(api_key=config.gemini_api_key, model=config.model)
+    gemini = GeminiClient(api_key=config.gemini_api_key, model=config.model) if config.gemini_api_key else None
     game = GameAdapter(host=config.openttd_host, port=config.openttd_port)
     memory = MemoryLog()
-    agent = AgentCore(gemini=gemini, game=game, memory=memory)
+    agent = AgentCore(gemini=gemini, game=game, memory=memory, model=config.model)
 
-    run_server(agent, memory, config.ui_port)
+    run_server(
+        agent,
+        memory,
+        config.ui_port,
+        {
+            "gemini_api_key": config.gemini_api_key,
+            "model": config.model,
+            "openttd_host": config.openttd_host,
+            "openttd_port": config.openttd_port,
+        },
+    )
 
 
 if __name__ == "__main__":
