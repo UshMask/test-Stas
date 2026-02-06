@@ -7,33 +7,63 @@
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <header>
-      <h1>OpenTTD Agent Control Panel</h1>
-      <p>Детальное управление агентом и поток его внутренних мыслей.</p>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">OpenTTD · Gemini Agent</p>
+        <h1>Панель управления автономным агентом</h1>
+        <p class="subtitle">Детальное управление, прозрачные мысли агента и контроль циклов.</p>
+      </div>
+      <div class="hero-actions">
+        <button id="runCycle" class="primary">Запустить цикл</button>
+        <button id="refreshState" class="ghost">Обновить статус</button>
+      </div>
     </header>
 
-    <main class="grid">
-      <section class="panel">
+    <main class="layout">
+      <section class="panel control">
         <h2>Ручное управление</h2>
+        <p class="muted">Отправьте команду для корректировки стратегии агента.</p>
         <label for="command">Команда</label>
-        <textarea id="command" rows="4" placeholder="Например: сосредоточься на грузовых маршрутах"></textarea>
-        <button id="sendCommand">Отправить</button>
-        <button id="runCycle">Запустить цикл агента</button>
+        <textarea id="command" rows="5" placeholder="Например: сосредоточься на пассажирских маршрутах"></textarea>
+        <div class="button-row">
+          <button id="sendCommand" class="primary">Отправить команду</button>
+          <button id="clearCommand" class="ghost">Очистить</button>
+        </div>
       </section>
 
-      <section class="panel">
+      <section class="panel status">
         <h2>Статус агента</h2>
-        <div id="status">Ожидание данных...</div>
+        <div class="status-grid">
+          <div class="status-card">
+            <span class="label">Мысли</span>
+            <strong id="thoughtCount">0</strong>
+          </div>
+          <div class="status-card">
+            <span class="label">События</span>
+            <strong id="eventCount">0</strong>
+          </div>
+          <div class="status-card">
+            <span class="label">Последнее обновление</span>
+            <strong id="lastUpdated">—</strong>
+          </div>
+        </div>
+        <div class="status-summary" id="status">Ожидание данных...</div>
       </section>
 
-      <section class="panel">
-        <h2>Внутренние мысли</h2>
-        <ul id="thoughts"></ul>
+      <section class="panel scroll">
+        <div class="panel-header">
+          <h2>Внутренние мысли</h2>
+          <span class="chip">Observer · Planner · Actor</span>
+        </div>
+        <ul id="thoughts" class="feed"></ul>
       </section>
 
-      <section class="panel">
-        <h2>События</h2>
-        <ul id="events"></ul>
+      <section class="panel scroll">
+        <div class="panel-header">
+          <h2>События</h2>
+          <span class="chip">Логи управления</span>
+        </div>
+        <ul id="events" class="feed"></ul>
       </section>
     </main>
 

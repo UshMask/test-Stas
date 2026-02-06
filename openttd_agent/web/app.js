@@ -2,6 +2,9 @@ const statusEl = document.getElementById("status");
 const thoughtsEl = document.getElementById("thoughts");
 const eventsEl = document.getElementById("events");
 const commandEl = document.getElementById("command");
+const thoughtCountEl = document.getElementById("thoughtCount");
+const eventCountEl = document.getElementById("eventCount");
+const lastUpdatedEl = document.getElementById("lastUpdated");
 
 async function fetchState() {
   const response = await fetch("/api/state");
@@ -10,7 +13,11 @@ async function fetchState() {
 }
 
 function render(memory) {
+  const now = new Date();
   statusEl.textContent = `Мыслей: ${memory.thoughts.length}, событий: ${memory.events.length}`;
+  thoughtCountEl.textContent = memory.thoughts.length;
+  eventCountEl.textContent = memory.events.length;
+  lastUpdatedEl.textContent = now.toLocaleTimeString("ru-RU");
 
   thoughtsEl.innerHTML = "";
   memory.thoughts.slice().reverse().forEach((thought) => {
@@ -49,3 +56,7 @@ fetchState();
 
 document.getElementById("sendCommand").addEventListener("click", sendCommand);
 document.getElementById("runCycle").addEventListener("click", runCycle);
+document.getElementById("clearCommand").addEventListener("click", () => {
+  commandEl.value = "";
+});
+document.getElementById("refreshState").addEventListener("click", fetchState);
