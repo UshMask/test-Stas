@@ -4,12 +4,16 @@ const commandEl = document.getElementById("command");
 const thoughtCountEl = document.getElementById("thoughtCount");
 const eventCountEl = document.getElementById("eventCount");
 const shotCountEl = document.getElementById("shotCount");
+const apiCheckCountEl = document.getElementById("apiCheckCount");
+const gameCheckCountEl = document.getElementById("gameCheckCount");
 const lastUpdatedEl = document.getElementById("lastUpdated");
 const apiKeyEl = document.getElementById("apiKey");
 const apiStatusEl = document.getElementById("apiStatus");
 const modelEl = document.getElementById("model");
 const hostEl = document.getElementById("host");
 const portEl = document.getElementById("port");
+
+const seenItems = new Set();
 
 async function fetchState() {
   const response = await fetch("/api/state");
@@ -19,16 +23,26 @@ async function fetchState() {
 
 function render(memory, config) {
   const now = new Date();
+  const shotCount = memory.events.filter((event) => event.type === "screenshot").length;
+  const apiChecks = memory.events.filter((event) => event.type === "api_check").length;
+  const gameChecks = memory.events.filter((event) => event.type === "game_check").length;
+
   statusEl.textContent = `Мыслей: ${memory.thoughts.length}, событий: ${memory.events.length}`;
   thoughtCountEl.textContent = memory.thoughts.length;
   eventCountEl.textContent = memory.events.length;
-  shotCountEl.textContent = memory.events.filter((event) => event.type === "screenshot").length;
+  shotCountEl.textContent = shotCount;
+  apiCheckCountEl.textContent = apiChecks;
+  gameCheckCountEl.textContent = gameChecks;
   lastUpdatedEl.textContent = now.toLocaleTimeString("ru-RU");
   updateConfigForm(config);
 
-  feedEl.innerHTML = "";
   const feedItems = buildFeed(memory);
-  feedItems.forEach((item) => feedEl.appendChild(item));
+  feedItems.forEach((item) => {
+    if (!seenItems.has(item.key)) {
+      seenItems.add(item.key);
+      feedEl.prepend(item.element);
+    }
+  });
 }
 
 async function sendCommand() {
@@ -113,7 +127,7 @@ function buildFeed(memory) {
   const combined = thoughts.concat(events).sort((a, b) => {
     return String(a.timestamp).localeCompare(String(b.timestamp));
   });
-  combined.reverse().slice(0, 80).forEach((item) => {
+  combined.slice(-80).forEach((item) => {
     const li = document.createElement("li");
     li.className = `chat-bubble role-${item.role}`;
     const meta = document.createElement("div");
@@ -134,7 +148,8 @@ function buildFeed(memory) {
       }
     }
     li.appendChild(body);
-    feed.push(li);
+    const key = `${item.type}:${item.role}:${item.timestamp}:${JSON.stringify(item.content).slice(0, 120)}`;
+    feed.push({ key, element: li });
   });
   return feed;
 }

@@ -1,15 +1,16 @@
 :root {
   color-scheme: light dark;
-  font-family: "Inter", system-ui, sans-serif;
-  --bg: #08090d;
-  --panel: #121318;
-  --panel-soft: #1b1d24;
+  font-family: "Bebas Neue", "Inter", system-ui, sans-serif;
+  --bg: #08070b;
+  --panel: #101018;
+  --panel-soft: #1b1b26;
   --text: #f8f8fb;
-  --muted: #b6bcc6;
-  --accent: #ff2d55;
-  --accent-strong: #ff0f3d;
-  --accent-yellow: #ffd40d;
-  --border: #2c2f3b;
+  --muted: #c3c7d0;
+  --accent: #ff2148;
+  --accent-strong: #ff002f;
+  --accent-yellow: #ffd200;
+  --accent-white: #fefefe;
+  --border: #272733;
 }
 
 * {
@@ -19,7 +20,7 @@
 body {
   margin: 0;
   padding: 28px;
-  background: radial-gradient(circle at top, #2b0c12 0%, #0b0b10 55%);
+  background: radial-gradient(circle at top, #3a0b13 0%, #0b0b10 55%);
   color: var(--text);
 }
 
@@ -34,6 +35,13 @@ body {
   padding-left: 16px;
 }
 
+.hero h1 {
+  font-size: 38px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin: 6px 0;
+}
+
 .eyebrow {
   text-transform: uppercase;
   letter-spacing: 0.2em;
@@ -45,6 +53,7 @@ body {
 .subtitle {
   color: var(--muted);
   margin: 8px 0 0;
+  font-family: "Inter", system-ui, sans-serif;
 }
 
 .hero-actions {
@@ -68,7 +77,8 @@ body {
   overflow: hidden;
 }
 
-.panel::after {
+.panel::after,
+.persona-panel::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -77,6 +87,14 @@ body {
   border-radius: 18px;
   opacity: 0;
   animation: panelGlow 6s ease-in-out infinite;
+}
+
+.persona-panel::before {
+  border: none;
+  background: linear-gradient(120deg, rgba(255, 210, 0, 0.12), transparent 40%);
+  opacity: 0.4;
+  transform: translateX(-60%);
+  animation: sweep 8s ease-in-out infinite;
 }
 
 .panel.chat {
@@ -97,6 +115,21 @@ body {
   align-items: center;
 }
 
+.persona-header {
+  background: var(--accent);
+  color: var(--accent-white);
+  padding: 12px 16px;
+  margin: -20px -20px 16px;
+  transform: skew(-6deg);
+  border-bottom: 3px solid var(--accent-yellow);
+}
+
+.persona-header h2,
+.persona-header span {
+  transform: skew(6deg);
+  text-transform: uppercase;
+}
+
 .chip {
   border: 1px solid var(--border);
   padding: 4px 10px;
@@ -104,11 +137,13 @@ body {
   font-size: 12px;
   color: var(--muted);
   background: rgba(255, 212, 13, 0.08);
+  font-family: "Inter", system-ui, sans-serif;
 }
 
 .muted {
   color: var(--muted);
   margin-bottom: 16px;
+  font-family: "Inter", system-ui, sans-serif;
 }
 
 .status-grid {
@@ -142,6 +177,7 @@ label {
   display: block;
   margin-bottom: 6px;
   color: var(--muted);
+  font-family: "Inter", system-ui, sans-serif;
 }
 
 textarea {
@@ -154,6 +190,7 @@ textarea {
   padding: 12px;
   font-size: 14px;
   resize: vertical;
+  font-family: "Inter", system-ui, sans-serif;
 }
 
 input {
@@ -165,6 +202,7 @@ input {
   border-radius: 10px;
   padding: 10px 12px;
   font-size: 14px;
+  font-family: "Inter", system-ui, sans-serif;
 }
 
 small {
@@ -188,6 +226,7 @@ button {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-family: "Inter", system-ui, sans-serif;
 }
 
 button.primary:hover {
@@ -221,6 +260,7 @@ button.ghost:hover {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.08);
   animation: slideIn 0.4s ease;
+  backdrop-filter: blur(6px);
 }
 
 .chat-bubble.role-observer {
@@ -243,6 +283,7 @@ button.ghost:hover {
   font-size: 12px;
   color: var(--muted);
   margin-bottom: 6px;
+  font-family: "Inter", system-ui, sans-serif;
 }
 
 .chat-screenshot {
@@ -270,6 +311,18 @@ button.ghost:hover {
   }
   50% {
     opacity: 0.5;
+  }
+}
+
+@keyframes sweep {
+  0% {
+    transform: translateX(-60%);
+  }
+  50% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(60%);
   }
 }
 

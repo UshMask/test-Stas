@@ -20,16 +20,16 @@
     </header>
 
     <main class="layout">
-      <section class="panel chat">
-        <div class="panel-header">
+      <section class="panel chat persona-panel">
+        <div class="panel-header persona-header">
           <h2>Основной цикл</h2>
           <span class="chip">Live feed</span>
         </div>
         <ul id="feed" class="chat-feed"></ul>
       </section>
 
-      <aside class="panel sidebar">
-        <div class="panel-header">
+      <aside class="panel sidebar persona-panel">
+        <div class="panel-header persona-header">
           <h2>Настройки</h2>
           <span class="chip">API & Game</span>
         </div>
@@ -57,7 +57,7 @@
           </div>
         </div>
 
-        <div class="panel-header">
+        <div class="panel-header persona-header">
           <h2>Ручное управление</h2>
           <span class="chip">Command</span>
         </div>
@@ -68,7 +68,7 @@
           <button id="clearCommand" class="ghost">Очистить</button>
         </div>
 
-        <div class="panel-header">
+        <div class="panel-header persona-header">
           <h2>Статистика</h2>
           <span class="chip">Realtime</span>
         </div>
@@ -84,6 +84,14 @@
           <div class="status-card">
             <span class="label">Скриншоты</span>
             <strong id="shotCount">0</strong>
+          </div>
+          <div class="status-card">
+            <span class="label">Проверки API</span>
+            <strong id="apiCheckCount">0</strong>
+          </div>
+          <div class="status-card">
+            <span class="label">Проверки игры</span>
+            <strong id="gameCheckCount">0</strong>
           </div>
           <div class="status-card">
             <span class="label">Последнее обновление</span>

@@ -52,6 +52,8 @@ The `GameAdapter` in `openttd_agent/game.py` provides two key methods:
 
 This default implementation is a **safe stub** and logs commands instead of driving a real client. Plug in your preferred automation layer (e.g., OpenTTD admin API, local scripting, window automation) while keeping the agent architecture unchanged.
 
+When you click **Проверить игру**, the stub writes a status message to `/tmp/openttd_agent_status.txt` so you can see connection checks outside the UI.
+
 ## Architecture overview
 
 ```
